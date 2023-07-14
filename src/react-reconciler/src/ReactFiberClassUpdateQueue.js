@@ -39,17 +39,22 @@ export function enqueueUpdate(fiber, update, lane) {
  */
 export function processUpdateQueue(workInProgress, nextProps, renderLanes) {
   const queue = workInProgress.updateQueue
+  // 老链表头
   let firstBaseUpdate = queue.firstBaseUpdate
+  // 老链表尾
   let lastBaseUpdate = queue.lastBaseUpdate
+  // 新链表
   const pendingQueue = queue.shared.pending
   // 合并新老链表
   if (pendingQueue !== null) {
     queue.shared.pending = null
     const lastPendingUpdate = pendingQueue
     const firstPendingUpdate = lastPendingUpdate.next
+    // 剪开新链表尾部
     lastPendingUpdate.next = null
     // 如果没有老链表
     if (lastBaseUpdate === null) {
+      // 指向新链表
       firstBaseUpdate = firstPendingUpdate
     } else {
       lastBaseUpdate.next = firstPendingUpdate

@@ -9,11 +9,11 @@ import {
   // isHigherEventPriority
 } from "./ReactFiberLane";
 
-// 默认事件车道
+// 默认事件车道 
 export const DefaultEventPriority = DefaultLane
-// 离散事件优先级
+// 离散事件优先级 click onchange
 export const DiscreteEventPriority = SyncLane
-// 连续事件的优先级
+// 连续事件的优先级 鼠标操作
 export const ContinuousEventPriority = InputContinuousLane
 // 空闲事件优先级
 export const IdleEventPriority = IdleLane
