@@ -168,7 +168,7 @@ function getHighestPriorityLanes(lanes) {
 /**
  * pendingLanes = 001100
  * 找到最右边的1    000100
- * update         000010 执行
+ * update         000100 执行
  * @param {*} root 
  * @param {*} wipLanes 
  * @returns 
@@ -187,7 +187,6 @@ export function getNextLanes(root, wipLanes) {
       return wipLanes
     }
   }
-
   return nextLanes;
 }
 

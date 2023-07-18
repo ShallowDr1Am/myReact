@@ -49,7 +49,7 @@ let workInProgress = null;
 let workInProgressRoot = null // 正在构建中的根节点
 let rootDoesHavePassiveEffect = false // 次根节点上有没有useEffect副作用
 let rootWithPendingPassiveEffects = null //具有Effect副作用的根节点
-let workInProgressRootRenderLanes = NoLanes
+let workInProgressRootRenderLanes = NoLanes // 当前渲染的优先级
 
 // 构建fiber树正在进行中
 const RootInProgress = 0
@@ -148,7 +148,6 @@ function performSyncWorkOnRoot(root) {
  * @param {*} root 
  */
 function performConcurrentWorkOnRoot(root, didTimeout) {
-  // debugger
   // 先获取当前根节点上的任务
   const originalCallbackNode = root.callbackNode
   const lanes = getNextLanes(root, NoLanes)
@@ -319,52 +318,6 @@ function completeUnitOfWork(unitOfWork) {
   }
 }
 
-function printFinishedWork(fiber) {
-  const { flags, deletions } = fiber
-  if ((flags & ChildDeletion) !== NoFlags) {
-    fiber.flags &= (~ChildDeletion)
-    console.log('子节点有删除' + (deletions.map(fiber => `${fiber.type}#${fiber.memoizedProps.id}`).join(',')))
-  }
-  let child = fiber.child
-  while (child) {
-    printFinishedWork(child)
-    child = child.sibling
-  }
-  if (fiber.flags !== NoFlags) {
-    console.log(getFlags(fiber), getTag(fiber.tag), fiber.type, fiber.memoizedProps)
-  }
-}
-
-function getFlags(fiber) {
-  const { flags, deletions } = fiber
-  if (flags === (Placement | Update)) {
-    return '移动'
-  }
-  if (flags === Placement) {
-    return '插入'
-  }
-  if (flags === Update) {
-    return '更新'
-  }
-  return flags
-
-}
-
-function getTag(tag) {
-  switch (tag) {
-    case FunctionComponent:
-      return 'FunctionComponent'
-    case HostRoot:
-      return 'HostRoot'
-    case HostComponent:
-      return 'HostComponent'
-    case HostText:
-      return 'HostText'
-    default:
-      return
-  }
-}
-
 export function requestUpdateLane() {
   const updateLane = getCurrentUpdatePriority()
   if (updateLane !== NoLanes) {
@@ -374,15 +327,6 @@ export function requestUpdateLane() {
   return eventLane
 }
 
-function sleep(duration) {
-  const timestamp = new Date().getTime()
-  const endTime = timestamp + duration
-  while (true) {
-    if (new Date().getTime() > endTime) {
-      return
-    }
-  }
-}
 
 // 请求当前的时间
 export function requestEventTime() {
