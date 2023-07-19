@@ -294,7 +294,7 @@ function updateReducer(reducer) {
     } else {
       newBaseQueueLast.next = newBaseQueueFirst
     }
-    hook.memoizedState = newState
+    hook.memoizedState = queue.lastRenderedState = newState
     hook.baseState = newBaseState
     hook.baseQueue = newBaseQueueLast
     queue.lastRenderedState = newState

@@ -24,7 +24,7 @@ function dispatchDiscreteEvent(domEventName, eventSystemFlags, container, native
   // 现获取老的更新优先级
   const previousPriority = getCurrentEventPriority()
   try {
-    // 把当前的更新优先级设置成离线事件优先级
+    // 把当前的更新优先级设置成离散事件优先级
     setCurrentUpdatePriority(DiscreteEventPriority)
     dispatchEvent(domEventName, eventSystemFlags, container, nativeEvent)
   } finally {

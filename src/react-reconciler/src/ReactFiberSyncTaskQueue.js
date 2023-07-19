@@ -17,6 +17,7 @@ export function scheduleSyncCallback(callback) {
 }
 
 export function flushSyncCallbacks() {
+    // 当前没有执行，并且数组不为空
   if (!isFlushingSyncQueue && syncQueue !== null) {
     isFlushingSyncQueue = true
     let i = 0
